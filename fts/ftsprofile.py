@@ -15,6 +15,7 @@ class FTSProfile:
         
     def add_equity(self,ticker):
         """
+        Adds equity to portfolio
         Args:
         ticker(string): stock ticker
         
@@ -26,15 +27,26 @@ class FTSProfile:
         """
         self.portfolio[ticker] = [yf.Ticker(ticker),0] # [Ticker Object, number of shares owned]
         
-    def set_cash(self,uninvested_cash):
-        """sets curent amount of uninvested_cash in account
-        
-            Parameters:
-
+    def set_cash(self,cash):
         """
-        self.uninvested_cash = uninvested_cash
+        Sets curent amount of cash in account.
+        
+        Args:
+        cash(int): stock ticker
+        
+        Returns:
+        void
+        
+        Raises:
+        None
+        """
+        self.uninvested_cash = cash
+        
         
     def set_start_date(self,date):
+        """
+        
+        """
         self.start_date = date
         self.current_date = date
         
@@ -49,8 +61,17 @@ class FTSProfile:
     
     def calculate_sharpe_ratio(self,ticker, risk_free_rate = 0, start_date = None, end_date = None):
         """
-        Returns Sharpe ratio for given stock ticker and dates,
-        Default Risk free rate is 0
+        Calculates sharpe ratio of a particular equity for a specified risk-free rate,start date,
+        and end date.
+
+        Args:
+        risk_free_rate(float): risk-free rate defined by user
+
+        Returns:
+        float: sharpe-ratio multiplied by the sqrt of trading days
+
+        Raises:
+        None
         """
         daily_return = myFTS.get_basic_data('MSFT')['Close'].pct_change(1)
         mean_return = abs(daily_return.mean())
@@ -61,19 +82,37 @@ class FTSProfile:
     def calculate_sortino_ratio(self,ticker, risk_free_rate = 0, start_date = None, end_date = None):
         pass
     def view_portfolio(self):
-        """Prints each equity in portfolio and number of shares owned"""
+        """
+        Prints each equity in portfolio and number of shares owned.
+
+        Args:
+        None
+
+        Returns:
+        None
+
+        Raises:
+        None
+
+        """
         for i in self.portfolio.keys():
             print(f"Ticker: {i}, # shares owned: {self.portfolio[i][1]}")
+
     def set_holdings(self,tickers = [],weights = []):
         """
         Sets current holdings to a certain percentage of portfolio at the current date
         tickers and weights are both numpy arrays with each weight signaling pct of portfolio of corresponding ticker
         tickers and weights must be the same size
         
-        Parameters
+        Args:
         tickers(list of strings): list of stock tickers
         weights(list of floats): list of weights
 
+        Returns:
+        void
+        
+        Raises:
+        None
         """
         invested_amount = 0
         for i in range(len(tickers)):
