@@ -1,6 +1,9 @@
+from ftsprofile import FTSProfile
+
+
 class BacktestNode:
     
-    def __init__(self,fts_prof = FTS_profile()):
+    def __init__(self,fts_prof = FTSProfile()):
         self.fts_prof = fts_prof
         self.unrealized_profit = 0
         self.percent_return = 0

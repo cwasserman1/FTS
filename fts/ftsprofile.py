@@ -15,13 +15,23 @@ class FTSProfile:
         
     def add_equity(self,ticker):
         """
-        Adds equity ticker to portfolio
-
+        Args:
+        ticker(string): stock ticker
+        
+        Returns:
+        void
+        
+        Raises:
+        None
         """
         self.portfolio[ticker] = [yf.Ticker(ticker),0] # [Ticker Object, number of shares owned]
         
-    def set_uninvested_cash(self,uninvested_cash):
-        """sets curent amount of uninvested_cash in account"""
+    def set_cash(self,uninvested_cash):
+        """sets curent amount of uninvested_cash in account
+        
+            Parameters:
+
+        """
         self.uninvested_cash = uninvested_cash
         
     def set_start_date(self,date):
@@ -33,7 +43,7 @@ class FTSProfile:
         
     def get_basic_data(self,ticker,start_date = None,end_date = None): 
         """returns basic stock data as a pd dataframe
-           dates must be string in format yyyy-mm-dd
+           dates must be string in timestamp format
            chosen stock must be in portfolio"""
         return self.portfolio[ticker][0].history(start = start_date,end = end_date)
     
@@ -59,7 +69,11 @@ class FTSProfile:
         Sets current holdings to a certain percentage of portfolio at the current date
         tickers and weights are both numpy arrays with each weight signaling pct of portfolio of corresponding ticker
         tickers and weights must be the same size
-        Must not exceed 1
+        
+        Parameters
+        tickers(list of strings): list of stock tickers
+        weights(list of floats): list of weights
+
         """
         invested_amount = 0
         for i in range(len(tickers)):
