@@ -42,17 +42,6 @@ class FTSProfile:
         """
         self.uninvested_cash = cash
         
-        
-    def set_start_date(self,date):
-        """
-        
-        """
-        self.start_date = date
-        self.current_date = date
-        
-    def set_end_date(self,date):
-        self.end_date = date
-        
     def get_basic_data(self,ticker,start_date = None,end_date = None): 
         """returns basic stock data as a pd dataframe
            dates must be string in timestamp format
@@ -130,10 +119,29 @@ class FTSProfile:
         """
         return self.portfolio[ticker][0].history().T[date][time]
     
-    def liquidate_holdings(self,tickets = []):
+    def liquidate_holdings(self,tickers = [None],all_stocks = False):
         """
         Takes a list of tickets and liquidates them at the current date
+
+        Args:
+        tickers(list of strings): list of stock tickers that will be liquidated. Default value is None so user can choose to liquidate the whole
+        portfolio.
+
+        all_stocks(boolean): True if user wants to liquidate the whole portfolio, False if user wants to liquidate only select stocks.
+        Default value is False
+
+        Returns:
+        None
+
+        Raises:
+        None
         """
-        for i in tickets:
-            self.uninvested_cash+=self.portfolio[i][1]*self.price_at_date(i,'Close',self.current_date)
-            self.portfolio[i][1] = 0
+        if not all_stocks:
+
+            for i in tickers:
+                self.uninvested_cash+=self.portfolio[i][1]*self.price_at_date(i,'Close',self.current_date)
+                self.portfolio[i][1] = 0
+        else:
+            for i in self.porfolio.keys():
+                self.uninvested_cash+=self.portfolio[i][1]*self.price_at_date(i,'Close',self.current_date)
+                self.portfolio[i][1] = 0
